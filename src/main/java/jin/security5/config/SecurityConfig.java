@@ -30,13 +30,13 @@ public class SecurityConfig {
     public UserDetailsService userDetailsService() { // 사용자의 정보를 불러온다.
         UserDetails user = User.builder()
                 .username("user")     // 아이디
-                .password("123456")   // 패스워드
+                .password(passwordEncoder().encode("123456"))   // 패스워드
                 .roles("USER")        // 권환
                 .build();
 
         UserDetails admin = User.builder()
                 .username("admin")             // 아이디
-                .password("123456")            // 패스워드
+                .password(passwordEncoder().encode("123456"))        // 패스워드
                 .roles("USER", "ADMIN")        // 권환
                 .build();
 
@@ -51,7 +51,7 @@ public class SecurityConfig {
      */
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+        return authenticationConfiguration.getAuthenticationManager(); // 스프링 한테 알려주기 위해서
     }
 
     /**
