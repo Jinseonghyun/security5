@@ -63,15 +63,14 @@ public class SecurityConfig {
         JdbcUserDetailsManager userDetailsManager = new JdbcUserDetailsManager(dataSource); // 객체로 일단 선언
 
         // 사용자 인증 쿼리
-        String sql1 = " SELECT user_id as username, user_pw as password, enables " //  시큐리티는 기본적으로 명칭을 username, password 로 지정하고 있다.
-                    + " FROM users "
-                    + " WHERE user_id = ? ";       // ? 에 아이디를 조건으로 해서 유저 아이디 컬럼에 우리가 입력한 아이디가 들어간다. -> 그걸 데이터로 가져온다.
-                    ;                              // -> 그게 우리 실제 데이터베이스에 있는 아이디랑 일치하는지 확인 -> 그리고 enabled (활성화) 야브기 1로 되어 있는지 확인해서 -> 로그인 처리
+        String sql1 = " SELECT user_id as username, user_pw as password, enabled " //  시큐리티는 기본적으로 명칭을 username, password 로 지정하고 있다.
+                    + " FROM user "
+                    + " WHERE user_id = ? ";        // ? 에 아이디를 조건으로 해서 유저 아이디 컬럼에 우리가 입력한 아이디가 들어간다. -> 그걸 데이터로 가져온다.
+                                                    // -> 그게 우리 실제 데이터베이스에 있는 아이디랑 일치하는지 확인 -> 그리고 enabled (활성화) 야브기 1로 되어 있는지 확인해서 -> 로그인 처리
         // 사용자 권한 쿼리
-        String sql2 = " SELECT ueser_id as username, auth "     // 위에서 로그인 처리 되면 애가 갖고 있는 권한에 대해서 조회해서 가져오게 한다.
+        String sql2 = " SELECT user_id as username, auth "     // 위에서 로그인 처리 되면 애가 갖고 있는 권한에 대해서 조회해서 가져오게 한다.
                     + " FROM user_auth "
                     + " WHERE user_id = ? ";
-                    ;
 
         // 위에서 작성한 객체 쿼리들을 등록을 시켜주자
         userDetailsManager.setUsersByUsernameQuery(sql1);
